@@ -1,0 +1,22 @@
+# Fichiers Python compilés
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Environnements virtuels
+venv/
+.env/
+
+# Fichiers de configuration de Django
+db.sqlite3
+*.log
+
+# Fichiers spécifiques à l'IDE
+.vscode/
+.idea/
+
+# Fichiers et dossiers temporaires
+*.swp
+*.swo
+*.DS_Store

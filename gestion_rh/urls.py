@@ -1,3 +1,4 @@
+#gestion_rh\urls.py
 """gestion_rh URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -21,4 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),  # Ajoutez cette ligne pour la page d'accueil
     path('gestion_conges/', include('gestion_conges.urls')),
+    path('pending-leave-requests/', views.pending_leave_requests, name='pending_leave_requests'),
+    path('pending-leave-requests/', views.submit_leave_request, name='pending_leave_requests'),
+
 ]

@@ -1,0 +1,37 @@
+<!-- pending_leave_requests.html -->
+
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h2>Demandes de congé en attente d'approbation</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Employé</th>
+        <th>Type de congé</th>
+        <th>Date de début</th>
+        <th>Date de fin</th>
+        <th>Raison</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for leave in leave_requests %}
+        <tr>
+          <td>{{ leave.employee.first_name }} {{ leave.employee.last_name }}</td>
+          <td>{{ leave.get_type_of_leave_display }}</td>
+          <td>{{ leave.start_date }}</td>
+          <td>{{ leave.end_date }}</td>
+          <td>{{ leave.reason }}</td>
+          <td>
+            <a href="{% url 'approve_leave_request' leave.id %}">Approuver</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6">Aucune demande en attente d'approbation.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

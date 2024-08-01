@@ -1,3 +1,4 @@
+#gestion_rh\settings.py
 """
 Django settings for gestion_rh project.
 
@@ -85,7 +86,11 @@ DATABASES = {
         'PASSWORD': 'Bscardn123@@',
         'HOST': 'localhost',  # ou l'adresse IP de votre serveur MySQL
         'PORT': '3306',       # port par défaut de MySQL
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
+    
 }
 
 
@@ -134,3 +139,5 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 import pymysql
 pymysql.install_as_MySQLdb()
+
+DEFAULT_USER_ID = 1  # Remplacez par l'ID d'un utilisateur valide

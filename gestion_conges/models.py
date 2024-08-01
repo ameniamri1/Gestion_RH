@@ -1,8 +1,13 @@
+#gestion_conges\models.py
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.conf import settings
 
+
+default_user_id = settings.DEFAULT_USER_ID
 class Employee(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50, default='')
     last_name = models.CharField(max_length=50, default='')
     date_of_birth = models.DateField(null=True, blank=True)
@@ -43,3 +48,11 @@ class Leave(models.Model):
 
     def __str__(self):
         return f"{self.get_type_of_leave_display()} - {self.start_date} to {self.end_date}"
+
+class ApprovalLevel(models.Model):
+    name = models.CharField(max_length=50)
+    level = models.IntegerField(unique=True)  # Niveau d'approbation (1, 2, 3, ...)
+    approvers = models.ManyToManyField(User, related_name='approval_levels')  # Utilisateurs qui peuvent approuver à ce niveau
+
+    def __str__(self):
+        return self.name

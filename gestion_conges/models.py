@@ -34,7 +34,6 @@ class Leave(models.Model):
         ('approuvee', 'Approuvée'),
         ('rejettee', 'Rejetée'),
     ]
-    leave_type = models.CharField(max_length=100, default='vacances')
     type_of_leave = models.CharField(max_length=50, choices=TYPE_CHOICES, default='maladie')
     start_date = models.DateField()
     end_date = models.DateField()
@@ -47,8 +46,12 @@ class Leave(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='leave_requests')
 
     def __str__(self):
-        return f"{self.get_type_of_leave_display()} - {self.start_date} to {self.end_date}"
+        return f"{self.employee} - {self.get_type_of_leave_display()} du {self.start_date} au {self.end_date}"
 
+    def get_type_of_leave_display(self):
+        # Implémentez cette méthode si nécessaire
+        return self.status
+    
 class ApprovalLevel(models.Model):
     name = models.CharField(max_length=50)
     level = models.IntegerField(unique=True)  # Niveau d'approbation (1, 2, 3, ...)

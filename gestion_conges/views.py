@@ -120,3 +120,13 @@ def pending_leave_requests(request):
 def error_page(request):
     return render(request, 'gestion_conges/error_page.html')
 
+def shared_calendar(request):
+    # Récupérer tous les congés approuvés
+    approved_leaves = Leave.objects.filter(status='approuvee')
+    # Passer les congés au template
+    return render(request, 'gestion_conges/shared_calendar.html', {'leaves': approved_leaves})
+
+
+def calendar_view(request):
+    leaves = Leave.objects.all()
+    return render(request, 'gestion_conges/calendar.html', {'leaves': leaves})

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Calendrier des Congés</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css"
+    />
+  </head>
+  <body>
+    <h1>Calendrier des Congés</h1>
+    <div id="calendar"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        var events = [
+          {% for leave in leaves %}
+          {
+            title: '{{ leave.employee.first_name }} {{ leave.employee.last_name }} ({{ leave.get_type_of_leave_display }})',
+            start: '{{ leave.start_date|date:"YYYY-MM-DD" }}',
+            end: '{{ leave.end_date|date:"YYYY-MM-DD" }}',
+            color:
+              {% if leave.status == "approuvee" %}
+                "green"
+              {% elif leave.status == "rejettee" %}
+                "red"
+              {% else %}
+                "gray"
+              {% endif %}
+          },
+          {% empty %}
+          // Aucun événement trouvé
+          {% endfor %}
+        ];
+
+        console.log(events);  // Vérifiez les données dans la console du navigateur
+
+        $("#calendar").fullCalendar({
+          header: {
+            left: "prev,next today",
+            center: "title",
+            right: "month,agendaWeek,agendaDay",
+          },
+          events: events,
+          editable: true,
+          droppable: true // si vous souhaitez permettre le glisser-déposer
+        });
+      });
+    </script>
+  </body>
+</html>

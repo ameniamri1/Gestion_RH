@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Calendrier des Congés</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.0/main.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.0/main.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          var calendarEl = document.getElementById('calendar');
+          var calendar = new FullCalendar.Calendar(calendarEl, {
+              initialView: 'dayGridMonth',
+              events: [
+                  {% for leave in leaves %}
+                  {
+                      title: '{{ leave.employee.first_name }} {{ leave.employee.last_name }} ({{ leave.get_type_of_leave_display }})',
+                      start: '{{ leave.start_date }}',
+                      end: '{{ leave.end_date }}'
+                  },
+                  {% endfor %}
+              ]
+          });
+          calendar.render();
+      });
+    </script>
+</head>
+<body>
+    <div id="calendar"></div>
+</body>
+</html>

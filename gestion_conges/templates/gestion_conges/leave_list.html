@@ -1,34 +1,64 @@
-<h1>Liste des Congés</h1>
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Type de Congé</th>
-      <th>Date de Début</th>
-      <th>Date de Fin</th>
-      <th>Employé</th>
-      <th>Manager</th>
-      <th>Statut</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for leave in leaves %}
-    <tr>
-      <td>{{ leave.id }}</td>
-      <td>{{ leave.get_type_of_leave_display }}</td>
-      <td>{{ leave.start_date }}</td>
-      <td>{{ leave.end_date }}</td>
-      <td>{{ leave.employee.first_name }} {{ leave.employee.last_name }}</td>
-      <td>
-        {{ leave.approved_by.username if leave.approved_by else 'Non approuvé'
-        }}
-      </td>
-      <td>{{ leave.get_status_display }}</td>
-    </tr>
-    {% empty %}
-    <tr>
-      <td colspan="7">Aucun congé enregistré.</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Liste des Congés</title>
+  </head>
+  <body style="font-family: Arial, sans-serif; text-align: center">
+    <h1 style="color: #4caf50">Liste des Congés</h1>
+    <table
+      style="
+        width: 90%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        border: 1px solid #ddd;
+      "
+    >
+      <thead style="background-color: #f2f2f2">
+        <tr>
+          <th style="padding: 10px; border: 1px solid #ddd">ID</th>
+          <th style="padding: 10px; border: 1px solid #ddd">Type de Congé</th>
+          <th style="padding: 10px; border: 1px solid #ddd">Date de Début</th>
+          <th style="padding: 10px; border: 1px solid #ddd">Date de Fin</th>
+          <th style="padding: 10px; border: 1px solid #ddd">Employé</th>
+          <th style="padding: 10px; border: 1px solid #ddd">Manager</th>
+          <th style="padding: 10px; border: 1px solid #ddd">Statut</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for leave in leaves %}
+        <tr>
+          <td style="padding: 8px; border: 1px solid #ddd">{{ leave.id }}</td>
+          <td style="padding: 8px; border: 1px solid #ddd">
+            {{ leave.get_type_of_leave_display }}
+          </td>
+          <td style="padding: 8px; border: 1px solid #ddd">
+            {{ leave.start_date }}
+          </td>
+          <td style="padding: 8px; border: 1px solid #ddd">
+            {{ leave.end_date }}
+          </td>
+          <td style="padding: 8px; border: 1px solid #ddd">
+            {{ leave.employee.first_name }} {{ leave.employee.last_name }}
+          </td>
+          <td style="padding: 8px; border: 1px solid #ddd">
+            {{ leave.approved_by.username if leave.approved_by else 'Non
+            approuvé' }}
+          </td>
+          <td style="padding: 8px; border: 1px solid #ddd">
+            {{ leave.get_status_display }}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td
+            colspan="7"
+            style="padding: 10px; text-align: center; border: 1px solid #ddd"
+          >
+            Aucun congé enregistré.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>

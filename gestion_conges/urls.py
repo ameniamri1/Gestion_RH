@@ -12,6 +12,7 @@ urlpatterns = [
     path('pending-leave-requests/', views.pending_leave_requests, name='pending_leave_requests'),
     path('error/', views.error_page, name='error_page'),  # Ajoutez cette ligne
     path('shared-calendar/', views.shared_calendar, name='shared_calendar'),  # Ajoutez cette ligne
-    path('calendar/', views.calendar_view, name='calendar'),
-
+    path('absence/history/', views.absence_history, name='absence_history'),
+    path('absence/report/', views.absence_report, name='absence_report'),
+    path('absence/performance/', views.performance_indicators, name='performance_indicators'),
 ]

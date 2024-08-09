@@ -1,6 +1,8 @@
 #gestion_conges\admin.py
 from django.contrib import admin
-from .models import Employee, Leave ,ApprovalLevel
+from .models import Employee, Leave ,ApprovalLevel,Attendance ,Department, Performance, Training
+
+
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
@@ -17,3 +19,21 @@ class LeaveAdmin(admin.ModelAdmin):
 @admin.register(ApprovalLevel)
 class ApprovalLevelAdmin(admin.ModelAdmin):
     list_display = ('name', 'level')
+
+@admin.register(Attendance)
+class AttendanceAdmin(admin.ModelAdmin):
+    list_display = ('attendance_id', 'employee', 'work_hours', 'overtime_hours', 'date')
+    search_fields = ('employee__user__username',)  # Champs sur lesquels rechercher
+    list_filter = ('date',)  # Filtres disponibles dans la liste
+@admin.register(Department)
+class DepartmentAdmin(admin.ModelAdmin):
+    list_display = ('name',)  # Correction des champs affichés
+
+
+@admin.register(Performance)
+class PerformanceAdmin(admin.ModelAdmin):
+    list_display = ('employee', 'review_date', 'performance_score')  # Correction des champs affichés
+
+@admin.register(Training)
+class TrainingAdmin(admin.ModelAdmin):
+    list_display = ('employee', 'training_title', 'training_date')  # Correction des champs affichés

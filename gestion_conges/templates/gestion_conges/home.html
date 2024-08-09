@@ -1,18 +1,64 @@
-<!-- home.html -->
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Page d'accueil</title>
-</head>
-<body>
-    <h1>Bienvenue sur la page d'accueil</h1>
-    <ul>
-        <li><a href="{% url 'employee_list' %}">Liste des employés</a></li>
-        <li><a href="{% url 'leave_request' %}">Faire une demande de congé</a></li>
-        <li><a href="{% url 'leave_list' %}">Liste des congés</a></li>
-        <li><a href="{% url 'shared_calendar' %}">Calendrier partagé</a></li>
-        <li><a href="{% url 'calendar' %}">Calendrier des congés</a></li>
-
+  </head>
+  <body style="font-family: Arial, sans-serif; text-align: center">
+    <h1 style="color: #4caf50">Bienvenue sur la page d'accueil</h1>
+    <p style="font-size: 1.2em">
+      Voici quelques-unes des fonctionnalités disponibles :
+    </p>
+    <ul style="list-style-type: none; padding: 0">
+      <li style="margin: 10px 0">
+        <a
+          href="{% url 'employee_list' %}"
+          style="text-decoration: none; color: #007bff"
+          >Liste des employés</a
+        >
+      </li>
+      <li style="margin: 10px 0">
+        <a
+          href="{% url 'leave_request' %}"
+          style="text-decoration: none; color: #007bff"
+          >Faire une demande de congé</a
+        >
+      </li>
+      <li style="margin: 10px 0">
+        <a
+          href="{% url 'leave_list' %}"
+          style="text-decoration: none; color: #007bff"
+          >Liste des congés</a
+        >
+      </li>
+      <li style="margin: 10px 0">
+        <a
+          href="{% url 'shared_calendar' %}"
+          style="text-decoration: none; color: #007bff"
+          >Calendrier partagé</a
+        >
+      </li>
+      
+      <li style="margin: 10px 0">
+        <a
+          href="{% url 'absence_history' %}"
+          style="text-decoration: none; color: #007bff"
+          >Historique des absences</a
+        >
+      </li>
+      <li style="margin: 10px 0">
+        <a
+          href="{% url 'absence_report' %}"
+          style="text-decoration: none; color: #007bff"
+          >Rapport d'absences</a
+        >
+      </li>
+      <li style="margin: 10px 0">
+        <a
+          href="{% url 'performance_indicators' %}"
+          style="text-decoration: none; color: #007bff"
+          >Indicateurs de performance</a
+        >
+      </li>
     </ul>
-</body>
+  </body>
 </html>

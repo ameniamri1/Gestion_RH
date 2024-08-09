@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Historique des Absences</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            color: #4CAF50;
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+        li strong {
+            color: #555;
+        }
+        hr {
+            border: 0;
+            border-top: 1px solid #ddd;
+            margin: 10px 0;
+        }
+        .no-absences {
+            text-align: center;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <h1>Historique des Absences</h1>
+    <ul>
+        {% for absence in absences %}
+        <li>
+            <strong>Employé :</strong> {{ absence.employee.name }}<br />
+            <strong>Dates :</strong> {{ absence.start_date }} - {{ absence.end_date }}<br />
+            <strong>Raison :</strong> {{ absence.reason }}<br />
+            <strong>Durée :</strong> {{ absence.duration }} jours
+        </li>
+        <hr />
+        {% empty %}
+        <li class="no-absences">Aucune absence enregistrée.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

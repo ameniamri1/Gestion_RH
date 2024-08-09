@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Rapport d'Absence</title>
+  </head>
+  <body style="font-family: Arial, sans-serif; text-align: center">
+    <h1 style="color: #4caf50">Rapport d'Absence</h1>
+    <table
+      style="
+        width: 80%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        border: 1px solid #ddd;
+      "
+    >
+      <thead style="background-color: #f2f2f2">
+        <tr>
+          <th style="padding: 10px; border: 1px solid #ddd">Employé</th>
+          <th style="padding: 10px; border: 1px solid #ddd">Date de début</th>
+          <th style="padding: 10px; border: 1px solid #ddd">Date de fin</th>
+          <th style="padding: 10px; border: 1px solid #ddd">Raisons</th>
+          <th style="padding: 10px; border: 1px solid #ddd">Durée</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for absence in absences %}
+        <tr>
+          <td style="padding: 8px; border: 1px solid #ddd">
+            {{ absence.employee }}
+          </td>
+          <td style="padding: 8px; border: 1px solid #ddd">
+            {{ absence.start_date }}
+          </td>
+          <td style="padding: 8px; border: 1px solid #ddd">
+            {{ absence.end_date }}
+          </td>
+          <td style="padding: 8px; border: 1px solid #ddd">
+            {{ absence.reason }}
+          </td>
+          <td style="padding: 8px; border: 1px solid #ddd">
+            {{ absence.duration }}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td
+            colspan="5"
+            style="padding: 10px; text-align: center; border: 1px solid #ddd"
+          >
+            Aucune absence trouvée.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>

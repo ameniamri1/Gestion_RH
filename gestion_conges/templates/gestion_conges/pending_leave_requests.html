@@ -1,37 +1,58 @@
-<!-- pending_leave_requests.html -->
-
-{% extends 'base_generic.html' %}
-
-{% block content %}
-  <h2>Demandes de congé en attente d'approbation</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Employé</th>
-        <th>Type de congé</th>
-        <th>Date de début</th>
-        <th>Date de fin</th>
-        <th>Raison</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for leave in leave_requests %}
-        <tr>
-          <td>{{ leave.employee.first_name }} {{ leave.employee.last_name }}</td>
-          <td>{{ leave.get_type_of_leave_display }}</td>
-          <td>{{ leave.start_date }}</td>
-          <td>{{ leave.end_date }}</td>
-          <td>{{ leave.reason }}</td>
-          <td>
-            <a href="{% url 'approve_leave_request' leave.id %}">Approuver</a>
-          </td>
-        </tr>
-      {% empty %}
-        <tr>
-          <td colspan="6">Aucune demande en attente d'approbation.</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+{% extends 'base_generic.html' %} {% block content %}
+<h2 style="color: #4caf50; text-align: center">
+  Demandes de Congé en Attente d'Approbation
+</h2>
+<table
+  style="
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+  "
+>
+  <thead style="background-color: #f2f2f2">
+    <tr>
+      <th style="padding: 10px; border: 1px solid #ddd">Employé</th>
+      <th style="padding: 10px; border: 1px solid #ddd">Type de Congé</th>
+      <th style="padding: 10px; border: 1px solid #ddd">Date de Début</th>
+      <th style="padding: 10px; border: 1px solid #ddd">Date de Fin</th>
+      <th style="padding: 10px; border: 1px solid #ddd">Raison</th>
+      <th style="padding: 10px; border: 1px solid #ddd">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for leave in leave_requests %}
+    <tr>
+      <td style="padding: 8px; border: 1px solid #ddd">
+        {{ leave.employee.first_name }} {{ leave.employee.last_name }}
+      </td>
+      <td style="padding: 8px; border: 1px solid #ddd">
+        {{ leave.get_type_of_leave_display }}
+      </td>
+      <td style="padding: 8px; border: 1px solid #ddd">
+        {{ leave.start_date }}
+      </td>
+      <td style="padding: 8px; border: 1px solid #ddd">{{ leave.end_date }}</td>
+      <td style="padding: 8px; border: 1px solid #ddd">{{ leave.reason }}</td>
+      <td style="padding: 8px; border: 1px solid #ddd">
+        <a
+          href="{% url 'approve_leave_request' leave.id %}"
+          style="color: #4caf50; text-decoration: none; font-weight: bold"
+        >
+          Approuver
+        </a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td
+        colspan="6"
+        style="padding: 10px; text-align: center; border: 1px solid #ddd"
+      >
+        Aucune demande en attente d'approbation.
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}

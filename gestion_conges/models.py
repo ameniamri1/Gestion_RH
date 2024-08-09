@@ -51,6 +51,29 @@ class Leave(models.Model):
     def get_type_of_leave_display(self):
         # Implémentez cette méthode si nécessaire
         return self.status
+
+class Department(models.Model):
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        db_table = 'gestion_conges_department'
+    
+
+class Performance(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    performance_score = models.IntegerField()
+    review_date = models.DateField()
+
+    def __str__(self):
+        return f'{self.employee} - {self.performance_score} - {self.review_date}'
+
+class Training(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    training_title = models.CharField(max_length=200)
+    training_date = models.DateField()
+
+    def __str__(self):
+        return f'{self.employee} - {self.training_title}'
     
 class ApprovalLevel(models.Model):
     name = models.CharField(max_length=50)
@@ -59,3 +82,29 @@ class ApprovalLevel(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Attendance(models.Model):
+    attendance_id = models.AutoField(primary_key=True)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    work_hours = models.TimeField()
+    overtime_hours = models.TimeField()
+    date = models.DateField()
+
+    def __str__(self):
+        return f"Attendance {self.attendance_id} for {self.employee.name} on {self.date}"
+
+class Absence(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    reason = models.CharField(max_length=255)
+    is_approved = models.BooleanField(default=False)
+
+    def duration(self):
+        return (self.end_date - self.start_date).days + 1
+
+class CalendarEvent(models.Model):
+    title = models.CharField(max_length=200)
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='calendar_events')

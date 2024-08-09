@@ -9,6 +9,9 @@ from .models import  ApprovalLevel
 from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import User
+from .models import Absence
+from django.db.models import Sum
+from django.db.models import F, ExpressionWrapper, fields
 
 
 def employee_list(request):
@@ -45,17 +48,22 @@ def submit_leave_request(request):
         if form.is_valid():
             leave_request = form.save(commit=False)
             try:
+                # Associe l'employé à la demande de congé
                 leave_request.employee = Employee.objects.get(user=request.user)
             except Employee.DoesNotExist:
-                return redirect('error_page')  # Redirection vers la page d'erreur
+                # Redirection en cas d'absence d'employé
+                return redirect('error_page')  # Assurez-vous que 'error_page' existe et est configurée correctement
             
             leave_request.save()
             return redirect('leave_list')
+        else:
+            # Affiche les erreurs de formulaire en cas d'invalidité
+            return render(request, 'gestion_conges/leave_request.html', {'form': form})
     else:
         form = LeaveRequestForm()
 
+    # Affiche le formulaire pour une requête GET
     return render(request, 'gestion_conges/leave_request.html', {'form': form})
-
 
 def send_notification(subject, message, recipient_list):
     from_email = settings.DEFAULT_FROM_EMAIL
@@ -127,6 +135,43 @@ def shared_calendar(request):
     return render(request, 'gestion_conges/shared_calendar.html', {'leaves': approved_leaves})
 
 
-def calendar_view(request):
-    leaves = Leave.objects.all()
-    return render(request, 'gestion_conges/calendar.html', {'leaves': leaves})
+
+
+#tache 4
+def absence_history(request):
+    absences = Absence.objects.filter(employee__user=request.user)
+    return render(request, 'gestion_conges/absence_history.html', {'absences': absences})
+
+
+
+def absence_report(request):
+    report_type = request.GET.get('report_type', 'employee')
+    absences = Absence.objects.all()
+
+    if report_type == 'department':
+        absences = absences.values('employee__department').annotate(total_days=Sum('duration'))
+    elif report_type == 'period':
+        start_date = request.GET.get('start_date')
+        end_date = request.GET.get('end_date')
+        absences = absences.filter(start_date__gte=start_date, end_date__lte=end_date)
+
+    return render(request, 'gestion_conges/absence_report.html', {'absences': absences})
+
+
+
+def performance_indicators(request):
+    total_days = 365  # Nombre de jours dans l'année
+    absences = Absence.objects.filter(is_approved=True)
+
+    # Calculer la durée des absences
+    absences = absences.annotate(duration=ExpressionWrapper(F('end_date') - F('start_date'), output_field=fields.DurationField()))
+
+    total_absent_days = absences.aggregate(total_days=Sum('duration'))['total_days'] or 0
+    total_employees = Employee.objects.count()
+
+    if total_employees > 0:
+        absenteeism_rate = (total_absent_days / (total_days * total_employees)) * 100
+    else:
+        absenteeism_rate = 0
+
+    return render(request, 'gestion_conges/performance_indicators.html', {'absenteeism_rate': absenteeism_rate, 'total_employees': total_employees, 'total_absent_days': total_absent_days})

@@ -2,15 +2,25 @@
 <html>
   <head>
     <title>Calendrier des Congés</title>
+    <!-- Intégration des styles de FullCalendar -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css"
     />
+    <style>
+      /* Style supplémentaire pour le calendrier */
+      #calendar {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+    </style>
   </head>
   <body>
-    <h1>Calendrier des Congés</h1>
+    <h1 style="text-align: center; color: #4caf50">Calendrier des Congés</h1>
     <div id="calendar"></div>
 
+    <!-- Intégration des scripts nécessaires -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
@@ -37,17 +47,22 @@
           {% endfor %}
         ];
 
-        console.log(events);  // Vérifiez les données dans la console du navigateur
+        console.log(events);  // Affiche les événements dans la console du navigateur
 
         $("#calendar").fullCalendar({
           header: {
             left: "prev,next today",
             center: "title",
-            right: "month,agendaWeek,agendaDay",
+            right: "month,agendaWeek,agendaDay"
           },
           events: events,
           editable: true,
-          droppable: true // si vous souhaitez permettre le glisser-déposer
+          droppable: true, // Permet le glisser-déposer
+          eventLimit: true, // Limite le nombre d'événements affichés par jour
+          eventRender: function (event, element) {
+            // Ajoute une infobulle pour chaque événement
+            $(element).tooltip({ title: event.title, placement: 'top' });
+          }
         });
       });
     </script>
